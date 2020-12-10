@@ -18,9 +18,9 @@ class Location:
     description = ""
 
     # A list of all locations the player can move to from this one.
-    neighbors = None
+    neighbors = []
 
-    def __init__(self, id = "", alias = [], name = "", description = "", neighbors = None, vendors = []):
+    def __init__(self, id = "", alias = [], name = "", description = "", neighbors = [], vendors = []):
         self.id = id
         self.alias = alias
         self.name = name

@@ -31,6 +31,9 @@ class Item:
 	# The amount of times the item can be used before breaking.
 	durability = None
 
+	# The destination of a GrubHub order.
+	destination = None
+
 	def __init__(
 		self,
 		id,
@@ -41,6 +44,7 @@ class Item:
 		vendor = None,
 		satiation = None,
 		durability = None,
+		destination = None,
 	):
 		self.id = id
 		self.type = type
@@ -50,6 +54,7 @@ class Item:
 		self.vendor = vendor
 		self.satiation = satiation
 		self.durability = durability
+		self.destination = destination
 
 def get_inventory():
 	with open('save.json') as save_file:
@@ -90,6 +95,9 @@ def create_item(desired_item):
 		
 		if desired_item.durability != None:
 			new_item[index]["durability"] = desired_item.durability
+		
+		if desired_item.destination != None:
+			new_item[index]["destination"] = desired_item.destination
 
 		inventory.update(new_item)
 		save_data.persist()
@@ -120,6 +128,9 @@ def search_for_item(sought_item):
 				
 				if "durability" in inventory[item].keys():
 					item_object.durability = inventory[item]["durability"]
+				
+				if "destination" in inventory[item].keys():
+					item_object.destination = inventory[item]["destination"]
 
 				return item_object
 

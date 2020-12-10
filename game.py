@@ -1,6 +1,5 @@
 # Import external libraries.
 import random
-import os
 import pygame
 import pygame_gui
 
@@ -126,6 +125,7 @@ class Game:
                     response_history = response
 
                     # Render the response.
+                    self.text_entry.set_text("")
                     self.text_block = UITextBox(response, pygame.Rect((50, 25), (700, 500)), self.ui_manager, object_id = "#text_block")
 
     def run(self):

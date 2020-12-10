@@ -32,6 +32,7 @@ class Command:
             self.tokens_count = len(tokens)
             self.command = tokens[0]
 
+
 def debug(cmd):
     response = "Hello!"
 
@@ -50,7 +51,7 @@ def mine(cmd):
 
     # Checks to see if the player is in the right location.
     if player_data.location == config.location_id_mines:
-        has_pickaxe = item.search_for_item(sought_item = "pickaxe")
+        has_pickaxe = item.search_for_item(sought_item="pickaxe")
 
         if has_pickaxe is None:
             desired_order = config.item_map.get("pickaxe")
@@ -67,7 +68,8 @@ def mine(cmd):
                 pickaxe_broken = True
                 item.delete_item(has_pickaxe.id)
             else:
-                item.edit_item(sought_item=has_pickaxe.id, property="durability", new_value=has_pickaxe.durability)
+                item.edit_item(sought_item=has_pickaxe.id,
+                               property="durability", new_value=has_pickaxe.durability)
 
             # Select a random number from 1 to 100 to provide the user with.
             mine_yield = random.randint(1, 100)
@@ -79,11 +81,11 @@ def mine(cmd):
 
             response = "You mined {mine_yield} slime!".format(
                 mine_yield=mine_yield)
-            
+
             if pickaxe_broken:
                 response += "<br>But your pickaxe broke!"
-            
-            mine_sound = pygame.mixer.Sound("assets/mine.wav")
+
+            mine_sound = pygame.mixer.Sound("media/sounds/mine.wav")
             pygame.mixer.Sound.play(mine_sound)
         else:
             response = "You're too hungry to mine any more slime! You'll have to eat something..."
@@ -97,6 +99,8 @@ def mine(cmd):
     return response
 
 # Returns all of the data from your save file.
+
+
 def data(cmd):
     # Get the player's data.
     player_data = player.Player()
@@ -114,6 +118,8 @@ def data(cmd):
     return response
 
 # Look around at your surroundings.
+
+
 def look(cmd):
     # Get the player's data.
     player_data = player.Player()
@@ -137,7 +143,7 @@ def look(cmd):
 # Move around the world.
 def move(cmd):
     # Define this variable as the first token the player input after the command itself.
-    target = utilities.flattenTokens(cmd.tokens[1:])
+    target = utilities.flatten_tokens(cmd.tokens[1:])
 
     # If the player didn't input anything after the command.
     if target == None or len(target) == 0:
@@ -163,7 +169,7 @@ def move(cmd):
         return response
 
     # If your current location has no neighbors, or if your target location has no neighbors, or if your target location is not a neighborhood of your current location.
-    if len(current_location.neighbors.keys()) == 0 or len(target_location.neighbors.keys()) == 0 or target_location.id not in current_location.neighbors.keys():
+    if len(current_location.neighbors) == 0 or len(target_location.neighbors) == 0 or target_location.id not in current_location.neighbors:
         response = "You don't know how to get there from here."
         return response
 
@@ -172,10 +178,13 @@ def move(cmd):
         player_data.location = target_location.id
         player_data.persist()
 
-        response = "You enter {current_location}.".format(current_location=target_location.name)
+        response = "You enter {current_location}.".format(
+            current_location=target_location.name)
         return response
 
 # Order an item.
+
+
 def menu(cmd):
     player_data = player.Player()
 
@@ -185,25 +194,28 @@ def menu(cmd):
 
     for item in config.item_list:
         if item.vendor == current_location.id:
-            item_listing = "<b>{}</b>: {} slimes<br>".format(item.name, item.value)
+            item_listing = "<b>{}</b>: {} slimes<br>".format(
+                item.name, item.value)
             list_of_items_for_sale.append(item_listing)
         else:
             pass
-        
+
     if len(list_of_items_for_sale) == 0:
         response = "There are no items for sale here."
         return response
     else:
-        nice_list_of_items_for_sale = utilities.format_nice_list(list_of_items_for_sale)
+        nice_list_of_items_for_sale = utilities.format_nice_list(
+            list_of_items_for_sale)
 
-        response = "There are the following items for sale:<br>{}".format(nice_list_of_items_for_sale)
+        response = "There are the following items for sale:<br>{}".format(
+            nice_list_of_items_for_sale)
         return response
 
 
 # Order an item.
 def order(cmd):
     # Whatever the player inputs after the move command itself.
-    target = utilities.flattenTokens(cmd.tokens[1:])
+    target = utilities.flatten_tokens(cmd.tokens[1:])
 
     # If the player doesn't input anything after the order command.
     if target == None or len(target) == 0:
@@ -230,20 +242,21 @@ def order(cmd):
 
             # If the player does not have enough slime to buy the desired order.
             if desired_order.value > player_data.slimes:
-                response = "You do not have enough slime to order this item! A {order} costs {price}, and you only have {slimes}!".format(order = desired_order.name, price = desired_order.value, slimes = player_data.slimes) 
+                response = "You do not have enough slime to order this item! A {order} costs {price}, and you only have {slimes}!".format(
+                    order=desired_order.name, price=desired_order.value, slimes=player_data.slimes)
                 return response
             else:
                 # Spend the slime necessary to buy the item.
                 player_data.slimes -= desired_order.value
                 player_data.persist()
-                
+
                 # Actually create the item.
                 item.create_item(desired_order)
 
-                response = "You order a {item}!".format(item = desired_order.name, description = desired_order.description)
+                response = "You order a {item}!".format(
+                    item=desired_order.name, description=desired_order.description)
                 return response
 
-# Eat something.
 def inventory(cmd):
     inventory = get_inventory()
 
@@ -255,13 +268,13 @@ def inventory(cmd):
 
     for item in inventory:
         response += "{}<br>".format(inventory[item]['name'])
-    
+
     return response
 
 # Eat something.
 def eat(cmd):
     # Whatever the player inputs after the move command itself.
-    target = utilities.flattenTokens(cmd.tokens[1:])
+    target = utilities.flatten_tokens(cmd.tokens[1:])
 
     # If the player doesn't input anything after the eat command.
     if target == None or len(target) == 0:
@@ -275,7 +288,7 @@ def eat(cmd):
     if sought_item == None:
         response = "You don't have one of those."
         return response
-    
+
     # If the player can eat the item.
     if sought_item.satiation == None:
         response = "You can't eat that!"
@@ -283,12 +296,13 @@ def eat(cmd):
     else:
         # Get the player's data.
         player_data = player.Player()
-        player_data.hunger -= sought_item.satiation 
+        player_data.hunger -= sought_item.satiation
         player_data.persist()
 
         # Eat the item.
         item.delete_item(target)
-        response = "You chomp into the {item}! {description}".format(item = sought_item.name, description = sought_item.description)
+        response = "You chomp into the {item}! {description}".format(
+            item=sought_item.name, description=sought_item.description)
         return response
 
 # Deposit some slime into your loan shark's bank account.
@@ -297,13 +311,15 @@ def deposit(cmd):
     player_data = player.Player()
 
     if player_data.location != config.location_id_loan_agency:
-        required_location = config.id_to_location.get(config.location_id_loan_agency)
+        required_location = config.id_to_location.get(
+            config.location_id_loan_agency)
 
-        response = config.text_invalid_location.format(location_name=required_location.name)
+        response = config.text_invalid_location.format(
+            location_name=required_location.name)
         return response
-    
+
     # Define this variable as the first token the player input after the command itself.
-    amount = int(utilities.flattenTokens(cmd.tokens[1:]))
+    amount = int(utilities.flatten_tokens(cmd.tokens[1:]))
 
     # If the player didn't input anything after the command.
     if amount == None or amount == 0:
@@ -315,7 +331,8 @@ def deposit(cmd):
 
     # If the player tries to deposit more slimes than they have.
     if amount > player_data.slimes:
-        response = "You can't deposit that much slime, you only have {:,}.".format(player_data.slimes)
+        response = "You can't deposit that much slime, you only have {:,}.".format(
+            player_data.slimes)
         return response
 
     else:
@@ -328,4 +345,77 @@ def deposit(cmd):
 
         if player_data.debt <= 0:
             response += "\nGood job!"
+        return response
+
+# Get food from Denny's to deliver to hungry people.
+def pickup(cmd):
+    # Get the player's data.
+    player_data = player.Player()
+
+    # Search through the player's inventory for the sought item.
+    sought_item = item.search_for_item("order")
+
+    # If we don't find the item in the player's inventory.
+    if sought_item != None:
+        response = "You already have an order you need to deliver to {}!".format(sought_item.destination)
+        return response
+
+    # Checks to see if the player is in the right location.
+    if player_data.location == config.location_id_dennys:
+        location_list_2 = []
+        for i in config.location_list:
+            if i.id == config.location_id_dennys:
+                pass
+            else:
+                location_list_2.append(i.id)
+        
+        destination = random.choice(location_list_2)
+
+        names = ["pancakes", "eggs", "grand slam", "french toast", "coffee", "bacon", "chocy milk"]
+
+        name = random.choice(names)
+
+        order_item = item.Item(id = utilities.flatten_tokens(name), type = config.type_general, name = name, description = "It's an order of {}! Drop it off at {}".format(name, destination), destination = destination)
+        
+        item.create_item(order_item)
+
+        response = "You pick up an order of {} that needs to be delievered to {}.".format(name, destination)
+
+        return response
+
+# Drop food from Denny's to deliver to hungry people.
+def dropoff(cmd):
+    # Whatever the player inputs after the dropoff command itself.
+    target = utilities.flatten_tokens(cmd.tokens[1:])
+
+    # Get the player's data.
+    player_data = player.Player()
+
+    # If the player doesn't input anything after the dropoff command.
+    if target == None or len(target) == 0:
+        response = "What do you want to drop off?"
+        return response
+
+    # Search through the player's inventory for the sought item.
+    sought_item = item.search_for_item(target)
+
+    # If we don't find the item in the player's inventory.
+    if sought_item == None:
+        response = "You don't have one of those."
+        return response
+
+    # If the player can eat the item.
+    if sought_item.destination == None or sought_item.destination != player_data.location:
+        response = "You can't drop that off here"
+        return response
+    else:
+        # Select a random number from 1,000 to 100,000 to provide the user with.
+        slime_yield = random.randint(1000, 100000)
+        
+        player_data.slimes += slime_yield
+        player_data.persist()
+
+        # Eat the item.
+        item.delete_item(target)
+        response = "You drop the {item} off! A greasy little nobody comes crawling out and gobbles it up. They leave {slimes} slimes for you...".format(item=sought_item.name, slimes=slime_yield)
         return response

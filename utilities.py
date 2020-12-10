@@ -22,6 +22,8 @@ command_map = {
     config.command_deposit: commands.deposit,
     config.command_menu: commands.menu,
     config.command_inventory: commands.inventory,
+    config.command_pickup: commands.pickup,
+    config.command_dropoff: commands.dropoff,
 }
 
 # When we input a message, check to see if it's a valid command and then execute it if it is.
@@ -54,7 +56,7 @@ def parse_message(message, output = None):
         return response
 
 # Turn an array of tokens into a single word (no spaces or punctuation) with all lowercase letters.
-def flattenTokens(tokens):
+def flatten_tokens(tokens):
     flattener = re.compile("[ '\"!@#$%^&*().,/?{}\[\];:]")
 
     target_name = ""
@@ -68,9 +70,17 @@ def flattenTokens(tokens):
 
     return target_name
 
+def format_nice_list(names = [], conjunction = "and"):
+	list = len(names)
 
-# Map of user IDs to their course ID.
-moves_active = {}
+	if list == 0:
+		return ''
+
+	if list == 1:
+		return names[0]
+	
+	return ', '.join(names[0:-1]) + '{comma} {conj} '.format(comma = (',' if list > 2 else ''), conj = conjunction) + names[-1]
+
 
 class Save():
     data = None
@@ -119,13 +129,3 @@ class Save():
             # Safely close the file.
             save_file.close()
 
-def format_nice_list(names = [], conjunction = "and"):
-	list = len(names)
-
-	if list == 0:
-		return ''
-
-	if list == 1:
-		return names[0]
-	
-	return ', '.join(names[0:-1]) + '{comma} {conj} '.format(comma = (',' if list > 2 else ''), conj = conjunction) + names[-1]

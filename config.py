@@ -2,8 +2,8 @@
 from map import Location
 from item import Item
 
-game_name = "Endless Slime"
-game_version = "0.4"
+game_name = "Untitled Text Adventure Featuring Slime and Capitalism As Gameplay Mechanics"
+game_version = "1"
 
 # Commands.
 command_help = 'help'
@@ -18,8 +18,10 @@ command_eat = 'eat'
 command_deposit = 'deposit'
 command_menu = 'menu'
 command_inventory = 'inventory'
-command_pickup = 'pickup'
-command_dropoff = 'dropoff'
+command_talk = 'talk'
+command_craps = 'craps'
+command_slots = 'slots'
+command_sell = 'sell'
 
 # Variables for the player's debt.
 initial_debt = 1000000
@@ -55,7 +57,9 @@ location_id_loan_agency = "loanagency"
 location_id_casino = "casino"
 location_id_grocer = "grocer"
 location_id_soup_kitchen = "soupkitchen"
-location_id_dennys = "dennys"
+location_id_bus_stop = "busstop"
+location_id_dicks = "dickssportinggoods"
+location_id_canada = "canada"
 
 # A list of every location in the game as Location objects.
 location_list = [
@@ -70,7 +74,8 @@ location_list = [
 			location_id_uptown,
 			location_id_south_end,
 			location_id_loan_agency,
-			location_id_dennys,
+			location_id_bus_stop,
+			location_id_dicks,
 		],
 	),
 	Location(
@@ -168,13 +173,33 @@ location_list = [
 			location_id_south_end,
 		],
 	),
-		Location(
-		id=location_id_dennys,
+	Location(
+		id=location_id_bus_stop,
 		alias=[
-			"de",
+			"bs",
 		],
-		name="a Denny's",
-		description="This is a Denny's.",
+		name="a Bus Stop",
+		description="This is a bus stop. There's a man you can <b>talk</b> to here.",
+		neighbors=[
+			location_id_downtown,
+		],
+	),
+	Location(
+		id=location_id_canada,
+		alias=[
+			"mapleleaf",
+		],
+		name="Canada",
+		description="Welcome to Canada! ...Man, it's cold here.",
+	),
+	Location(
+		id=location_id_dicks,
+		alias=[
+			"d",
+			"dsg"
+		],
+		name="Dick's Sporting Goods",
+		description="",
 		neighbors=[
 			location_id_downtown,
 		],
@@ -199,11 +224,36 @@ type_food = "food"
 # A list of every item in the game as Item objects.
 item_list = [
 	Item(
+		id = "rustypickaxe",
+		type = type_general,
+		name = "Rusty Pickaxe",
+		description = "It's rusty, but it works.",
+		durability = 50,
+	),
+	Item(
 		id = "pickaxe",
 		type = type_general,
 		name = "Pickaxe",
 		description = "It's rusty, but it works.",
-		durability = 50,
+		durability = 100,
+		value = 5000,
+		vendor = location_id_dicks,
+	),
+	Item(
+		id = "superpickaxe",
+		type = type_general,
+		name = "Super Pickaxe",
+		description = "It's rusty, but it works.",
+		durability = 200,
+		value = 20000,
+		vendor = location_id_dicks,
+	),
+	Item(
+		id = "poudrin",
+		type = type_general,
+		name = "Slime Poudrin",
+		value = 1000,
+		description = "A dense, crystalized chunk of precious slime.",
 	),
 	Item(
 		id = "apple",

@@ -1,6 +1,7 @@
 # Import external libraries.
 import json
 import config
+import utilities
 
 # The object model for the player character.
 class Player:
@@ -26,24 +27,26 @@ class Player:
 
     # Create the player object.
     def __init__(self):
-        # Open up the save file.
-        with open('save.json', 'r') as save_file:
-            # Turn the JSON object into a Python list containing dictionaries.
-            data = json.load(save_file)
+        try: # Open up the save file.
+            with open('save.json', 'r') as save_file:
+                # Turn the JSON object into a Python list containing dictionaries.
+                data = json.load(save_file)
 
-            # Retrieves the data from the first item in the list.
-            player_data = data['player']
+                # Retrieves the data from the first item in the list.
+                player_data = data['player']
 
-            # Loads the data into the player object.
-            self.name = player_data['name']
-            self.location = player_data['location']
-            self.slimes = player_data['slimes']
-            self.hunger = player_data['hunger']
-            self.scene = player_data['scene']
-            self.debt = player_data['debt']
+                # Loads the data into the player object.
+                self.name = player_data['name']
+                self.location = player_data['location']
+                self.slimes = player_data['slimes']
+                self.hunger = player_data['hunger']
+                self.scene = player_data['scene']
+                self.debt = player_data['debt']
 
-            # Safely close the file.
-            save_file.close()
+                # Safely close the file.
+                save_file.close()
+        except: # If there is no save file in the game's directory.
+            utilities.new_game()
 
     # Save the data from this player object to the save file.
     def persist(self):

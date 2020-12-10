@@ -13,6 +13,7 @@
     {
         "colours":
         {
+            "dark_bg": "#000000",
             "selected_bg": "#000000",
             "normal_text": "#FFFFFF",
             "selected_text": "#D3D3D3"

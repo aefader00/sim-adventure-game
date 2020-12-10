@@ -22,8 +22,10 @@ command_map = {
     config.command_deposit: commands.deposit,
     config.command_menu: commands.menu,
     config.command_inventory: commands.inventory,
-    config.command_pickup: commands.pickup,
-    config.command_dropoff: commands.dropoff,
+    config.command_talk: commands.talk,
+    config.command_craps: commands.craps,
+    config.command_slots: commands.slots,
+    config.command_sell: commands.sell,
 }
 
 # When we input a message, check to see if it's a valid command and then execute it if it is.
@@ -82,50 +84,27 @@ def format_nice_list(names = [], conjunction = "and"):
 	return ', '.join(names[0:-1]) + '{comma} {conj} '.format(comma = (',' if list > 2 else ''), conj = conjunction) + names[-1]
 
 
-class Save():
-    data = None
+def new_game():
+    with open('save.json', 'w') as save_file:
+        # Create the initial data structure of the save file and create in default values for every key.
+        save_data = {
+            "player": {
+                "name": None,
+                "location": config.location_id_downtown,
+                "slimes": 0,
+                "hunger": 0,
+                "scene": config.scene_id_newgame,
+                "debt": config.initial_debt,
+            },
+            "quest_progress": {
+                config.scene_id_newgame: 0
+            },
+            "items": {},
+        }
 
-    def __init__(self):
-        try:  # Open the save file.
-            with open('save.json', 'r') as save_file:
-                save_data = json.load(save_file)
-                save_file.close()
-                self.data = save_data
-        except:  # If there isn't a save file in the directory, create one.
-            with open('save.json', 'w') as save_file:
-                # Create the initial data structure of the save file and create in default values for every key.
-                save_data = {
-                    "player": {
-                        "name": None,
-                        "location": config.location_id_downtown,
-                        "slimes": 0,
-                        "hunger": 0,
-                        "scene": config.scene_id_newgame,
-                        "debt": config.initial_debt,
-                    },
-                    "quest_progress": {
-                        config.scene_id_newgame: 0
-                    },
-                    "items": {},
-                }
+        # Convert the new dictionary into a JSON object and save it in a new save file.
+        json.dump(save_data, save_file, indent=2)
 
-                # Convert the new dictionary into a JSON object and save it in a new save file.
-                json.dump(save_data, save_file, indent=2)
-
-                # Safely close the file.
-                save_file.close()
-
-                with open('save.json', 'r') as save_file:
-                    save_data = json.load(save_file)
-                    save_file.close()
-                    self.data = save_data
-
-    def persist(self):
-        # Commit the new changes to the save file.
-        with open('save.json', 'w') as save_file:
-            # Convert the dictionary into a JSON object and save it in a save file.
-            json.dump(self.data, save_file, indent=2)
-
-            # Safely close the file.
-            save_file.close()
+        # Safely close the file.
+        save_file.close()
 

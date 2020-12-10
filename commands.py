@@ -40,7 +40,7 @@ def debug(cmd):
 
 # Gives a brief overview of information about the game.
 def help(cmd):
-	response = "This game was created by the Interrelated Technology Group."
+	response = "You whip out your smartphone and navigate to Slimepedia, your goto source for all of your slime-based needs.<br> <br><b>Welcome to Untitled Text Adventure Featuring Slime and Capitalism As Gameplay Mechanics!</b> Your goal is to get enough <b>slime</b> to pay off your debts. You can check how much slime you have and how much of your debt you still have to pay off with the <b>data</b> command. Your best bet for getting slime early on is to use the <b>mine</b> command, while you’re in <b>the Mines</b>, of course. You’ll have to use these sorts of text commands a lot, so get used to it. Most of the time commands can be used by just typing them out, like with <b>data</b> and <b>mine</b>. Others will require additional text to accompany the command itself, like <b>slots</b> and <b>order</b>. So, just input the command, followed by a space, and then whatever additional information you need to specify. Below is a list of basic commands, and when relevant, whatever else you’ll need to type. Don’t worry, you’ll get used to it.<br><br> <br> LIST OF BASIC COMMANDS:<br><b>help</b> - This command!<br><b>data</b> - Shows you your slime and the amount of debt you still have to pay off.<br><b>deposit [amount of slime you wish to deposit] </b> - Pay off some of your debt. Only usable in the Loan Shark’s Office.<br><b>move [neighboring location]</b> - Move to a new location.<br><b>look</b> - Shows you a brief description of the location you’re in and the neighboring locations you can move to from your current one.<br><b>inventory</b> - Shows you all of the items in your inventory.<br><b>menu</b> - Shows you all the items you can buy at your current location. Most of the time you won’t be able to buy any, but some locations have shops.<br><b>order [the item you want to buy]</b> - Order an item from whatever shop you’re at.<br><b>eat [the item you want to eat]</b> - Eat an item that’s in your inventory if you get hungry.<br><b>mine</b> - Mine slime. Only usable in the mines.<br><b>craps [amount of slime you want to bet]</b> - Gamble slime when you’re at the casino. <br><b>slots [amount of slime you want to bet]</b> - Gamble slime when you’re at the casino.<br>"
 
 	return response
 
@@ -436,7 +436,9 @@ def deposit(cmd):
 		response = "You dump {:,} slime into the ATM.".format(amount)
 
 		if player_data.debt <= 0:
-			response += "\nGood job!"
+			response += "<br>Good job, you've paid off all your debts!<br> <br> ...What? Did you expect something more rewarding? All you’ve done is reset things to zero. You’re still poor, and you’ll have to keep mining slime if you want to keep the lights on. Then, when the mines dry up, you’ll need another loan. Rinse and repeat. There’s no happy ending here. But, you did beat the game. That’s pretty cool, huh?"
+			response += "<br> <br><b>YOU WIN!!</b><br> <br>This project was created by the SIM Technology Group.<br>In no paticular order, here are the people who helped make this game possible:"
+			response += "<br>- Nick Thompson<br>- Dominic Milton<br>- Ryan Davies<br>- Sonnae Peterson<br>- Anthony Fader<br>- Aidan Collins<br>- Dana Moser"
 		return response
 
 # Talk to the man at the bus stop.
@@ -446,23 +448,23 @@ def talk(cmd):
 
 	# Checks to see if the player is in the right location.
 	if player_data.location == config.location_id_bus_stop:
-		bribe = item.search_for_item(sought_item="apple")
+		bribe = item.search_for_item(sought_item="pizza")
 
 		if bribe is not None:
 			player_data.location = config.location_id_canada
 			player_data.persist()
 
-			response = "Is that a juicy, red apple! Please, give it to me! I'll give you this bus ticket in return..."
-			response += "You give the apple to the man and in exchange you get the ticket. You wait patiently and board the next bus."
+			response = "Is that a pizza? Please, give it to me! I'll give you this bus ticket in return..."
+			response += "You give the pizza to the man and in exchange you get the ticket. You wait patiently and board the next bus."
 			response += "As you board, a wave of relief washes over you. You've escaped America, and your debts along with it!"
-			response += "<br>You wonder if there's slime in Canda..."
+			response += "<br>You wonder if there's slime in Canada..."
 			response += "<br> <br><b>YOU WIN!!</b><br> <br>This project was created by the SIM Technology Group.<br>In no paticular order, here are the people who helped make this game possible:"
 			response += "<br>- Nick Thompson<br>- Dominic Milton<br>- Ryan Davies<br>- Sonnae Peterson<br>- Anthony Fader<br>- Aidan Collins<br>- Dana Moser"
 			return response
 
 		else:
 			response = "You approach the man and strike up a casual conversation."
-			response += "<br><br>'Guhhh... I'm so hungry... If someone were to give me an <b>apple</b> right now, I'd be so happy, I'd totally just straight up give them my bus ticket which could totally be, like, their opportunity to escape their debts and illegal immigrate to Canada, and stuff... *Sigh* Like, that'll ever happen...'"
+			response += "<br><br>'Guhhh... I'm so hungry... If someone were to give me an piece of pizza right now, I'd be so happy, I'd totally just straight up give them my bus ticket which could totally be, like, their opportunity to escape their debts and illegal immigrate to Canada, and stuff... *Sigh* Like, that'll ever happen...'"
 			return response
 
 	else:
@@ -500,7 +502,7 @@ def craps(cmd):
 				winnings = 5 * amount
 				player_data.slimes += winnings
 				player_data.persist()
-				response = "You rolled a 7! Wooowww... I'm so impressed haha loool hahahahahahaha like durrr huhhh"
+				response = "You rolled a 7!! Amazing! You got {}!".format(winnings)
 			else:
 				player_data.slimes -= amount
 				player_data.persist()

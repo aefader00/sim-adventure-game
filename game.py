@@ -34,6 +34,7 @@ response_history = ""
 title_screen_image = pygame.image.load('media/images/titlescreen.png')
 mines_image = pygame.image.load('media/images/mines.png')
 busstop_image = pygame.image.load('media/images/busstop.png')
+uptown_image = pygame.image.load('media/images/uptown.png')
 
 # Check to see if the player is in a scripted sequence.
 if player_data.scene is not None: # If they are, give them a response based upon their current scene.
@@ -77,6 +78,7 @@ class Game:
         self.start_up = True
         self.enter_mines = False
         self.enter_busstop = False
+        self.enter_uptown = False
 
         self.background_surface = None
 
@@ -105,6 +107,8 @@ class Game:
             self.image = UIImage(pygame.Rect((0, 0), self.options.resolution), mines_image, self.ui_manager)
         elif self.enter_busstop == True:
             self.image = UIImage(pygame.Rect((0, 0), self.options.resolution), busstop_image, self.ui_manager)
+        elif self.enter_uptown == True:
+            self.image = UIImage(pygame.Rect((0, 0), self.options.resolution), uptown_image, self.ui_manager)
         else: 
             self.background_surface.fill(self.ui_manager.get_theme().get_colour('dark_bg'))
             self.background_surface.blit(pygame.image.load("media/images/background.png"), (0, 0))
@@ -132,6 +136,9 @@ class Game:
                         self.recreate_ui()
                     if self.enter_busstop == True:
                         self.enter_busstop = False
+                        self.recreate_ui()
+                    if self.enter_uptown == True:
+                        self.enter_uptown = False
                         self.recreate_ui()
             if event.type == pygame.USEREVENT:
                 if (event.user_type == pygame_gui.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == '#text_entry'):
@@ -171,6 +178,9 @@ class Game:
                             self.recreate_ui()
                         if command_response == "You enter a Bus Stop.":
                             self.enter_busstop = True
+                            self.recreate_ui()
+                        if command_response == "You enter Uptown.":
+                            self.enter_uptown = True
                             self.recreate_ui()
     def run(self):
         while self.running:

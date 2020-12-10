@@ -69,7 +69,7 @@ location_list = [
 			"dt",
 		],
 		name="Downtown",
-		description="This is Downtown.",
+		description="This is Downtown. Skyscrappers, crowds of people walking every which way, all that sort of stuff. You know the deal.",
 		neighbors=[
 			location_id_uptown,
 			location_id_south_end,
@@ -84,7 +84,7 @@ location_list = [
 			"ut",
 		],
 		name="Uptown",
-		description="This is Uptown.",
+		description="This is Uptown. Yuppies all around you. You barf.",
 		neighbors={
 			location_id_downtown,
 			location_id_grocer,
@@ -96,7 +96,7 @@ location_list = [
 			"se",
 		],
 		name="South End",
-		description="This is the South End.",
+		description="This is the South End. Rough and tumble hard knock life stuff Bruce Willis is your dad.",
 		neighbors=[
 			location_id_downtown,
 			location_id_outskirts,
@@ -110,7 +110,7 @@ location_list = [
 			"o",
 		],
 		name="The Outskirts",
-		description="This is the Outskirts.",
+		description="This is the Outskirts. The wind's blowing all like *woooooowowwwoooooooooo*, y'know? Shut up.",
 		neighbors=[
 			location_id_south_end,
 			location_id_mines,
@@ -123,7 +123,7 @@ location_list = [
 			"m"
 		],
 		name="the Mines",
-		description="This is the Mines.",
+		description="This is the Mines. SLIME AS FAR AS THE EYES CAN SEE!!!! BASED BASED BASED BASED. There's also a fucking mountain of rusty pickaxes on the ground.",
 		neighbors=[
 			location_id_outskirts,
 		],
@@ -134,7 +134,7 @@ location_list = [
 			"l",
 		],
 		name="Casino",
-		description="This is the Casino.",
+		description="This is the Casino. Lights and shit are blinking everywhere and it's loud and it's totally like MOOOM why did you even bring me here I can't even gamble I'm like 13 please let me just sit in the car I want to beat Kirby Super Start Ultra PLEEEASE WAHHHHHHHHHHHHHH. You know how it is.",
 		neighbors=[
 			location_id_south_end,
 		],
@@ -146,7 +146,7 @@ location_list = [
 			"la"
 		],
 		name="the Loan Agency",
-		description="This is the Loan Agency.",
+		description="This is the Loan Agency. Fuck this place.",
 		neighbors=[
 			location_id_downtown,
 		],
@@ -157,7 +157,7 @@ location_list = [
 			"g",
 		],
 		name="a Grocer",
-		description="This is a Grocer.",
+		description="This is some Whole Food shit, it's disgusting. You peel off every 'non-gmo' sticker you can find.",
 		neighbors=[
 			location_id_uptown,
 		],
@@ -168,7 +168,7 @@ location_list = [
 			"sk",
 		],
 		name="a Soup Kitchen",
-		description="This is a Soup Kitchen.",
+		description="This is a Soup Kitchen. It's really sad in here.",
 		neighbors=[
 			location_id_south_end,
 		],
@@ -199,7 +199,7 @@ location_list = [
 			"dsg"
 		],
 		name="Dick's Sporting Goods",
-		description="",
+		description="Y'know like that place with the hockey sticks and stuff. Y'know. You've probably bought cleets here once. No? No cleats? Huh. Well, I've bought cleats here. AND LET ME TELL YOU. They were alright. Sell your poudrins here, also, by the way.",
 		neighbors=[
 			location_id_downtown,
 		],
@@ -263,6 +263,15 @@ item_list = [
 		value = 500,
 		vendor = location_id_grocer,
 		satiation = 10,
+	),
+	Item(
+		id = "pizza",
+		type = type_food,
+		name = "pizza",
+		description = "Pepperoni, mushroom, onion, and green pepper. Extra cheese. Obliterated with red pepper flakes.",
+		value = 2000,
+		vendor = location_id_grocer,
+		satiation = 100,
 	),
 		Item(
 		id = "gruel",
